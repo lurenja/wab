@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html manifest="cache.manifest">
+<head>
+	<meta charset="utf-8">
+	<title>Tool No.1</title>
+</head>
+<body>
+	Price: <input type="text" id="price_input" />
+	Cost: <input type="text" id="cost_input" />
+	Revenue: <span id="rev_span"></span>
+	<input type="button" value="Calc" onclick="calcRev()">
+<script type="text/javascript">
+function calcRev(){
+	var price = document.getElementById('price_input').value;
+	var cost = document.getElementById('cost_input').value;
+	var rev = (cost)*(price/100);
+	rev = rev/360;
+	var revObj = document.getElementById('rev_span');
+	if(window.navigator.userAgent.indexOf('MSIE') > -1){
+		revObj.innerText = rev;
+	}else{
+		revObj.textContent = rev;
+	}
+}
+</script>
+</body>
+</html>
