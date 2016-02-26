@@ -1,26 +1,70 @@
 <!DOCTYPE html>
-<html manifest="cache.manifest">
+<html lang="zh-CN">
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>Tool No.1</title>
+	<script type="text/javascript" src="./js/jquery-1.12.0.js"></script>
+	<script type="text/javascript" src="./bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap.min.css" />
+	<style type="text/css">
+	#result_div span{
+		color: #3EA055;
+		font-weight: bold;
+	}
+	</style>
 </head>
 <body>
-	Price: <input type="text" id="price_input" />
-	Cost: <input type="text" id="cost_input" />
-	Revenue: <span id="rev_span"></span>
-	<input type="button" value="Calc" onclick="calcRev()">
+	<div class="container">
+		<div class="page-hearder">
+			<h4>Revenue Calculation</h4>
+		</div>
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label class="col-xs-3">Price:</label>
+				<div class="col-xs-9">
+					<input type="text" id="price_input" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3">Cost:</label>
+				<div class="col-xs-9">
+					<input type="text" id="cost_input" class="form-control"/>
+				</div>
+			</div>
+			<div id="result_div" class="row">
+				<div class="col-xs-3"><label>1D:&nbsp;</label><span></span></div>
+				<div class="col-xs-3"><label>2D:&nbsp;</label><span></span></div>
+				<div class="col-xs-3"><label>4D:&nbsp;</label><span></span></div>
+				<div class="col-xs-3"><label>7D:&nbsp;</label><span></span></div>
+			</div>
+
+			<input type="button" value="Calc" onclick="calcRev()" class="btn btn-default btn-block">
+		</form>
+	<!-- Revenue: <span id="rev_span"></span> -->
+	</div>
 <script type="text/javascript">
+$(function(){
+	if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+		window.applicationCache.update();
+	}
+});
 function calcRev(){
 	var price = document.getElementById('price_input').value;
 	var cost = document.getElementById('cost_input').value;
 	var rev = (cost)*(price/100);
-	rev = rev/360;
-	var revObj = document.getElementById('rev_span');
-	if(window.navigator.userAgent.indexOf('MSIE') > -1){
-		revObj.innerText = rev;
-	}else{
-		revObj.textContent = rev;
-	}
+	rev = Math.round(rev*100/360)/100;
+	var $spans = $('#result_div').find('span');
+	$spans.eq(0).text(rev);
+	$spans.eq(1).text(rev*2);
+	$spans.eq(2).text(rev*4);
+	$spans.eq(3).text(rev*7);
+	// var revObj = document.getElementById('rev_span');
+	// if(window.navigator.userAgent.indexOf('MSIE') > -1){
+	// 	revObj.innerText = rev;
+	// }else{
+	// 	revObj.textContent = rev;
+	// }
 }
 </script>
 </body>
