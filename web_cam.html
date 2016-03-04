@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>Web Camera</title>
+	<script type="text/javascript" src="./js/jquery-1.12.0.js"></script>
+	<script type="text/javascript" src="./bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+	<div class="container">
+		<div class="page-header">
+			<h4>Web Camera</h4>
+		</div>
+		<div class="row"><video id="video" autoplay="" style="width:640px;height:480px"></video></div>
+		<div class="row"><button id="picture" class="btn btn-default btn-block">PICTURE</button></div>
+		<div class="row"><canvas id="canvas" width="640" height="480"></canvas></div>
+	</div>
+<script type="text/javascript">
+$(function(){
+	var video = document.getElementById("video");
+	var context = canvas.getContext("2d")
+	var errocb = function () {
+		console.log('sth wrong!');
+	}
+	if (navigator.getUserMedia) { // 标准的API
+		navigator.getUserMedia({ "video": true }, function (stream) {
+			video.src = stream;
+			video.play();
+		}, errocb);
+	} else if (navigator.webkitGetUserMedia) { // WebKit 核心的API
+		navigator.webkitGetUserMedia({ "video": true }, function (stream) {
+			video.src = window.webkitURL.createObjectURL(stream);
+			video.play();
+		}, errocb);
+	}
+});
+</script>
+</body>
+</html>
