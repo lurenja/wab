@@ -4,9 +4,13 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>Tool No.1</title>
-	<script type="text/javascript" src="./js/jquery-1.12.0.js"></script>
-	<script type="text/javascript" src="./bootstrap/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap.min.css" />
+	<script type="text/javascript" src="js/jquery-1.12.0.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="md/js/material.js"></script>
+	<script type="text/javascript" src="md/js/ripples.js"></script>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="md/css/bootstrap-material-design.css" />
+	<link rel="stylesheet" type="text/css" href="md/css/ripples.css" />
 	<style type="text/css">
 	#result_div span{
 		color: #800517;
@@ -39,33 +43,35 @@
 					<input type="text" id="cost_input" class="form-control"/>
 				</div>
 			</div>
-			<div id="result_div" class="row">
-				<div class="col-xs-3"><label>1D:&nbsp;</label><span></span></div>
-				<div class="col-xs-3"><label>2D:&nbsp;</label><span></span></div>
-				<div class="col-xs-3"><label>4D:&nbsp;</label><span></span></div>
-				<div class="col-xs-3"><label>7D:&nbsp;</label><span></span></div>
-			</div>
-
 			<input type="button" value="Calc" onclick="calcRev()" class="btn btn-default btn-block">
 		</form>
-	<!-- Revenue: <span id="rev_span"></span> -->
+		<table id="result_tb" class="table table-striped">
+			<tr><td class="label_td">1D:</td><td></td><td class="label_td">2D:</td><td></td></tr>
+			<tr><td class="label_td">4D:</td><td></td><td class="label_td">7D:</td><td></td></tr>
+		</table>
 	</div>
 <script type="text/javascript">
 $(function(){
 	if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
 		window.applicationCache.update();
 	}
+	$.material.init();
 });
 function calcRev(){
 	var price = document.getElementById('price_input').value;
 	var cost = document.getElementById('cost_input').value;
 	var rev = (cost)*(price/100);
-	rev = Math.round(rev*100/360)/100;
-	var $spans = $('#result_div').find('span');
-	$spans.eq(0).text(rev);
-	$spans.eq(1).text(rev*2);
-	$spans.eq(2).text(rev*4);
-	$spans.eq(3).text(rev*7);
+	setResult(rev);
+}
+function setResult(result){
+	var $tds = $('#result_tb').find('td:not([class="label_td"])');
+	$tds.eq(0).text(round(result));
+	$tds.eq(1).text(round(result*2));
+	$tds.eq(2).text(round(result*4));
+	$tds.eq(3).text(round(result*7));
+}
+function round(number){
+	return Math.round(number*100/360)/100;
 }
 </script>
 </body>
