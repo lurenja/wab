@@ -1,78 +1,48 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<title>Tool No.1</title>
-	<script type="text/javascript" src="js/jquery-1.12.0.js"></script>
-	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="md/js/material.js"></script>
-	<script type="text/javascript" src="md/js/ripples.js"></script>
-	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="md/css/bootstrap-material-design.css" />
-	<link rel="stylesheet" type="text/css" href="md/css/ripples.css" />
-	<style type="text/css">
-	#result_div span{
-		color: #800517;
-		font-weight: bold;
-	}
-	@media (max-width:768px) {
-    	.form-horizontal .control-label {
-    		padding-top: 7px;
-    		margin-bottom: 0;
-    		text-align: right;
-    	}
-    }
-	</style>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Web App Box</title>
+    <script type="text/javascript" src="js/jquery-1.12.0.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        $('#grid_div a').each(function(){
+            $(this).addClass('col-xs-3 col-md-2');
+            $(this).children('img').addClass('img-responsive');
+        });
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+    <style type="text/css">
+        #wrapper{
+        }
+        #grid_div img{
+            width: 50%;
+            margin: 10% auto;
+            min-width: 36px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-	<div class="container">
-		<div class="page-hearder">
-			<h4>Revenue Calculation</h4>
-		</div>
-		<form class="form-horizontal">
-			<div class="form-group">
-				<label class="col-xs-3 control-label">Price:</label>
-				<div class="col-xs-9">
-					<input type="text" id="price_input" class="form-control"/>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">Cost:</label>
-				<div class="col-xs-9">
-					<input type="text" id="cost_input" class="form-control"/>
-				</div>
-			</div>
-			<input type="button" value="Calc" onclick="calcRev()" class="btn btn-default btn-block">
-		</form>
-		<table id="result_tb" class="table table-striped">
-			<tr><td class="label_td">1D:</td><td></td><td class="label_td">2D:</td><td></td></tr>
-			<tr><td class="label_td">4D:</td><td></td><td class="label_td">7D:</td><td></td></tr>
-		</table>
-	</div>
-<script type="text/javascript">
-$(function(){
-	if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-		window.applicationCache.update();
-	}
-	$.material.init();
-});
-function calcRev(){
-	var price = document.getElementById('price_input').value;
-	var cost = document.getElementById('cost_input').value;
-	var rev = (cost)*(price/100);
-	setResult(rev);
-}
-function setResult(result){
-	var $tds = $('#result_tb').find('td:not([class="label_td"])');
-	$tds.eq(0).text(round(result));
-	$tds.eq(1).text(round(result*2));
-	$tds.eq(2).text(round(result*4));
-	$tds.eq(3).text(round(result*7));
-}
-function round(number){
-	return Math.round(number*100/360)/100;
-}
-</script>
+    <div id="wrapper" class="container">
+    <header class="row page-header"><h4>Web App</h4></header>
+    <div class="row">
+       <div id="grid_div" class="panel">
+         <a href="revnue.html"><img src="images/calculator.png" /></a>
+         <a href=""><img src="images/camera.png" /></a>
+         <a href=""><img src="images/calculator.png" /></a>
+         <a href=""><img src="images/camera.png" /></a>
+         <a href=""><img src="images/calculator.png" /></a>
+         <a href=""><img src="images/camera.png" /></a>
+         <a href=""><img src="images/calculator.png" /></a>
+         <a href=""><img src="images/camera.png" /></a>
+         <a href=""><img src="images/calculator.png" /></a>
+         <a href=""><img src="images/camera.png" /></a>
+       </div>
+    </div>
+    </div>
 </body>
 </html>
