@@ -37,12 +37,12 @@ $(function(){
 		navigator.getUserMedia({video: true }, function (stream) {
 			video.src = stream;
 			video.play();
-		}, errocb);
+		},  function (error) { console.log(error); });
 	} else if (navigator.webkitGetUserMedia) { // WebKit 核心的API
-		navigator.webkitGetUserMedia({ "video": true }, function (stream) {
+		navigator.webkitGetUserMedia({video: true }, function (stream) {
 			video.src = window.webkitURL.createObjectURL(stream);
 			video.play();
-		}, errocb);
+		}, function (error) { console.log(error); });
 	}
 });
 function capture() {
