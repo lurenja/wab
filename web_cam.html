@@ -11,21 +11,30 @@
 <body>
 	<div class="container">
 		<div class="page-header">
-			<h4>Web Camera</h4>
+			<h4><a href="javascript:history.go(-1);" class="btn"><span class="glyphicon glyphicon-menu-left"></span></a>Web Camera</h4>
 		</div>
-		<div class="row"><video id="video" autoplay="" style="width:640px;height:480px"></video></div>
-		<div class="row"><button id="picture" class="btn btn-default btn-block">PICTURE</button></div>
-		<div class="row"><canvas id="canvas" width="640" height="480"></canvas></div>
+		<div class="row">
+		    <div class="col-xs-12 col-sm-6">
+		        <video id="video" autoplay></video>
+		    </div>
+		    <div class="col-xs-12 col-sm-6">
+		    	<canvas id="canvas"></canvas>
+		    </div>
+		    <div class="col-xs-12">
+		    	<button id="picture" class="btn btn-default btn-block btn-primary" onclick="capture()">PICTURE</button>
+		    </div>
+		</div>
 	</div>
 <script type="text/javascript">
 $(function(){
 	var video = document.getElementById("video");
-	var context = canvas.getContext("2d")
+	var canvas = document.getElementById('canvas');
+	var context = canvas.getContext("2d");
 	var errocb = function () {
 		console.log('sth wrong!');
 	}
 	if (navigator.getUserMedia) { // 标准的API
-		navigator.getUserMedia({ "video": true }, function (stream) {
+		navigator.getUserMedia({video: true }, function (stream) {
 			video.src = stream;
 			video.play();
 		}, errocb);
@@ -36,6 +45,14 @@ $(function(){
 		}, errocb);
 	}
 });
+function capture() {
+	var video = document.getElementById('video');
+	var canvasObj = document.getElementById('canvas');
+	var context1 = canvasObj.getContext('2d');
+	context1.fillStyle = "#ffffff";
+	context1.fillRect(0, 0, 320, 240);
+	context1.drawImage(video, 0, 0, 320, 240);
+}
 </script>
 </body>
 </html>
