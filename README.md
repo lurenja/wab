@@ -1,2 +1,1 @@
-###Web Apps
-html5 web app demo
+HTML5 Web Apps practise
