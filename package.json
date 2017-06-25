@@ -1,0 +1,34 @@
+{
+  "name": "was",
+  "version": "0.0.1",
+  "description": "web tool system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"tsc -w -p src\" \"supervisor src\\index.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lurenja/was.git"
+  },
+  "author": "Abe Shi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lurenja/was/issues"
+  },
+  "homepage": "https://github.com/lurenja/was#readme",
+  "dependencies": {
+    "better-sqlite3": "^2.3.3",
+    "bootstrap": "^3.3.7",
+    "concurrently": "^3.4.0",
+    "express": "^4.15.3",
+    "jquery": "^1.12.4",
+    "multer": "^1.3.0",
+    "node-xlsx": "^0.7.4",
+    "pug": "^2.0.0-rc.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.0.35",
+    "supervisor": "^0.12.0"
+  }
+}

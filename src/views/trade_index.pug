@@ -1,0 +1,149 @@
+extends layout
+block title
+  title Trade Index
+block header
+  h4
+    a.btn(href='/index')
+      span.glyphicon.glyphicon-menu-left
+    span Trade History
+block content
+  .row
+    #menu.col-md-12(role="navigation")
+      ul.nav.nav-pills
+        li.active(role="presentation")
+          a(href="javascript:void(0);") History
+        li(role="presentation")
+          a(href="/trade_upload") Upload
+        li(role="presentation")
+          a(href="#") Setting
+  form.form-inline(id="search-form" action="" method="get")
+    .form-group
+      input.form-control(type="text" name="from")
+      input.form-control(type="text" name="to")
+      input.form-control(type="text" name="stock")
+      select.form-control(name="category")
+        option(value="证券") 证券
+        option(value="融券") 融券
+    button.btn.btn-default(type="button" onclick="searchData()") search
+  .row
+    table#result-tb.table
+      thead
+        tr
+          th 购买日期
+          th 成交时间
+          th 证券代码
+          th 证券名称
+          th 买卖标志
+          th 成交价格
+          th 成交数量
+          th 成交金额
+          th 协议编号
+          th 股东代码
+          th 交易市场
+      tbody
+        //- -var list = data
+        //- each val in data
+        //-   tr
+        //-     each val1, index1 in val
+        //-       td= val1
+  .row
+    .col-md-2
+      label AVG In Price:&nbsp;
+      span#in-price-span
+    .col-md-2
+      label Max Out Price:&nbsp;
+      span#max-out-price-span
+    .col-md-2
+      label Suggestion:&nbsp;
+      span#out-suggest-span
+  .row
+    .col-md-2
+      label AVG Out Price:&nbsp;
+      span#out-price-span
+    .col-md-2
+      label Min In Price:&nbsp;
+      span#min-in-price-span
+    .col-md-2
+      label Suggestion:&nbsp;
+      span#in-suggest-span
+  .row
+    .col-md-2
+      label Benefit:&nbsp;
+      span#benefit-span
+block append scripts
+  script(type="text/javascript").
+    $(function(){
+      calc();
+    });
+    /* calulate the summary data */
+    function calc(){
+      let inSum = 0, inAmount = 0, inPrice = 0, minInPrice = 0;
+      let outSum = 0, outAmount = 0, outPrice = 0, maxOutPrice = 0;
+      let $trs = $('#result-tb>tbody>tr'); //find all trs in table
+      $trs.each(function(index, elem){
+          let $tds = $(elem).find('td');
+          let currPrice = parseFloat($tds.eq(5).text());
+          if($tds.eq(4).text() == '证券买入'){
+            inAmount += parseInt($tds.eq(6).text()); // add total amount
+            inSum += parseFloat($tds.eq(7).text()); // add total cost
+            if(minInPrice == 0 || minInPrice > currPrice){
+              minInPrice = currPrice;
+            }
+          }else if($tds.eq(4).text() == '证券卖出'){
+            outAmount += parseInt($tds.eq(6).text());
+            outSum += parseFloat($tds.eq(7).text());
+            if(maxOutPrice == 0 || maxOutPrice < currPrice){
+              maxOutPrice = currPrice;
+            }
+          }
+      });
+      if(outSum > 0 || inSum > 0){
+          inPrice = inSum/inAmount;
+          outPrice = outSum/outAmount;
+          $('#in-price-span').text(inPrice.toFixed(3));
+          $('#max-out-price-span').text(maxOutPrice.toFixed(3));
+          $('#out-suggest-span').text(inPrice.toFixed(3));
+
+          $('#out-price-span').text(outPrice.toFixed(3));
+          $('#min-in-price-span').text(minInPrice.toFixed(3));
+          $('#in-suggest-span').text(outPrice.toFixed(3));
+
+          $('#benefit-span').text((outSum-inSum).toFixed(3));
+      }
+    }
+    /* search data with ajax submit */
+    function searchData(){
+      if(validForm()){
+      var data = $('#search-form').serialize();
+      $.get('/get_history', data, function(result){
+        var table = $('#result-tb').find('tbody');
+        table.empty(); // empty table data
+        for(var i=0, size=result.length; i<size; i++){
+          var $tr = $('<tr>');
+          for(name in result[i]){
+            var $td = $('<td>');
+            if(result[i][name] != null){
+              $td.text(result[i][name]);
+            }
+            $tr.append($td);
+          }
+          $(table).append($tr);
+        }
+        calc();
+      }, 'json');
+      }
+    }
+    /* prevent form input blank */
+    function validForm(){
+      let isValid = true;
+      let $inputs = $('#search-form').find('input[type="text"]');
+      $inputs.each(function(index, elem){
+        if($(this).val() == ''){
+          $(this).css('border-color', 'red');
+          isValid = false;
+        }else{
+          $(this).css('border-color', '');
+        }
+      });
+      return isValid;
+    }
