@@ -23,29 +23,25 @@ append content
             th= val
       tbody
   .row
-    .col-md-3
-      label AVG In Price:&nbsp;
-      span#in-price-span
-    .col-md-3
-      label Max Out Price:&nbsp;
-      span#max-out-price-span
-    .col-md-3
-      label Suggestion:&nbsp;
-      span#out-suggest-span
-  .row
-    .col-md-3
-      label AVG Out Price:&nbsp;
-      span#out-price-span
-    .col-md-3
-      label Min In Price:&nbsp;
-      span#min-in-price-span
-    .col-md-3
-      label Suggestion:&nbsp;
-      span#in-suggest-span
-  .row
-    .col-md-3
-      label Benefit:&nbsp;
-      span#benefit-span
+    table#summary-tb.table
+      tbody
+        tr
+          td AVG In Price:
+          td
+          td Max Out Price:
+          td
+          td Suggest Out:
+          td
+        tr
+          td AVG Out Price:
+          td
+          td Min In Price:
+          td
+          td Suggest In:
+          td
+        tr
+          td Benefit:
+          td(colspan="5")
 append scripts
   script(src="bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")
   script(src="js/common.js")
