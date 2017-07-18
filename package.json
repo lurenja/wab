@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"tsc -w -p src\" \"supervisor src\\index.js\""
+    "start": "concurrently \"npm run build:watch\" \"npm run serve\"",
+    "serve": "supervisor src\\index.js",
+    "build": "tsc -p src",
+    "build:watch": "tsc -w -p src\""
   },
   "repository": {
     "type": "git",
@@ -19,7 +22,9 @@
   "homepage": "https://github.com/lurenja/was#readme",
   "dependencies": {
     "better-sqlite3": "^2.3.3",
+    "body-parser": "^1.17.2",
     "bootstrap": "^3.3.7",
+    "bootstrap-datepicker": "^1.7.0",
     "concurrently": "^3.4.0",
     "express": "^4.15.3",
     "jquery": "^1.12.4",

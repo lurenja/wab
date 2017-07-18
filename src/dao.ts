@@ -20,11 +20,12 @@ exports.initDB = function(){
 exports.loadHist = function(from, to, stock_name, category){
   var db = new Database('afina.db');
   var sqlLoadHist = 'select * from trade_history t';
-  var params = [];
+  var params:string[] = [];
   if(arguments.length >0){
     sqlLoadHist += ' where t.trade_date >= date(?) and t.trade_date <= date(?) and t.stock_name like ? || "%" and t.in_out like ? || "%"';
     params = [from, to, stock_name, category];
   }
+  sqlLoadHist += ' order by 1, 2, 3'
 
   return db.prepare(sqlLoadHist).all(params);
 }

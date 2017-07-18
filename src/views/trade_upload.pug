@@ -1,65 +1,18 @@
-extends layout
-block title
-  title Upload History
-block append scripts
-  script(type="text/javascript").
-    $(function(){
-      var data = !{data}; //read data from server function
-      if (typeof(data) == 'object' && data.length > 0){
-          var table = $('#result-tb').find('tbody');
-          for (var i = 1, size = data.length; i < size; i++) {
-              if (data[i].length > 0) {
-                  var $tr = $('<tr>');
-                  for (var name in data[i]) {
-                      var $td = $('<td>');
-                      $td.text(data[i][name]);
-                      $tr.append($td);
-                  }
-                  table.append($tr);
-              }
-          }
-      }
-    });
-    function saveHist(){
-      window.location.href = '/savehistory';
+extends trade_layout.pug
+prepend title
+  -var title = 'Upload'
+append style
+  style.
+    button {
+      margin-left: 6px;
+      width: 120px;
     }
-block header
-  h4
-    a.btn(href='javascript:history.go(-1);')
-      span.glyphicon.glyphicon-menu-left
-    span Upload History
-block content
-  .row
-    #menu.col-md-12(role="navigation")
-      ul.nav.nav-pills
-        li(role="presentation")
-          a(href="/trade_index") History
-        li.active(role="presentation")
-          a(href="javascript:void(0);") Upload
-        li(role="presentation")
-          a(href="#") Setting
-  .row
-    form.form-inline(action="/upload" method="post" enctype="multipart/form-data")
-      .form-group.col-md-4
-        input.form-control(type='file' name='attach')
-      button.col-md-1.btn.btn-default(type='submit') Submit
-  .row
-    table#result-tb.table
-      thead
-        tr
-          th 购买日期
-          th 成交时间
-          th 证券代码
-          th 证券名称
-          th 买卖标志
-          th 成交价格
-          th 成交数量
-          th 成交金额
-          th 协议编号
-          th 股东代码
-          th 交易市场
-      tbody
-  .row
-    .col-md-11
-    .col-md-1
-      button.btn.btn-default(type="button" onclick="saveHist()") Confirm
+prepend header
+  -var showTitle = 'Upload Data'
+append content
+  block subContent
+    .row
+      form.form-inline(action="/upload" method="post" enctype="multipart/form-data")
+        .form-group
+          input.form-control(type='file' name='attach')
+        button.btn.btn-default(type='submit') Submit

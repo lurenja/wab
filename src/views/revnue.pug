@@ -1,68 +1,63 @@
-doctype html
-html(lang='zh-CN')
-  head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
-    title Revnue
-    script(type='text/javascript', src='js/jquery-1.12.0.js')
-    script(type='text/javascript', src='bootstrap/js/bootstrap.min.js')
-    link(rel='stylesheet', type='text/css', href='bootstrap/css/bootstrap.min.css')
-    style(type='text/css').
-      #result_div span{
+extends layout.pug
+block title
+  title Revnue
+append style
+  style.
+    #result_div span{
       color: #800517;
       font-weight: bold;
-      }
-      @media screen and (max-width:768px) {
+    }
+    @media screen and (max-width:768px) {
       .form-horizontal .control-label {
-      padding-top: 7px;
-      margin-bottom: 0;
-      text-align: right;
+        padding-top: 7px;
+        margin-bottom: 0;
+        text-align: right;
       }
       .form_input {
-      margin: 2% auto;
+        margin: 2% auto;
       }
-      }
-  body
-    .container
-      .page-hearder
-        h4
-          a.btn(href='javascript:history.go(-1);')
-            span.glyphicon.glyphicon-menu-left
-          | Revenue Calculation
-      form.form-horizontal
-        .form-group
-          .col-xs-12.col-sm-5.col-md-5.form_input
-            input#price_input.form-control(type='text', placeholder='Price')
-          .col-xs-12.col-sm-5.col-md-5.form_input
-            input#cost_input.form-control(type='text', placeholder='Amount')
-          .col-xs-12.col-sm-2.col-md-2.form_input
-            input.btn.btn-default.btn-block.btn-primary(type='button', value='GET', onclick='calcRev()')
-      #result_list.row
-        .col-xs-3.col-sm-1 1D:
-        .col-xs-3.col-sm-2.result 0
-        .col-xs-3.col-sm-1 2D:
-        .col-xs-3.col-sm-2.result 0
-        .col-xs-3.col-sm-1 4D:
-        .col-xs-3.col-sm-2.result 0
-        .col-xs-3.col-sm-1 7D:
-        .col-xs-3.col-sm-2.result 0
-    script(type='text/javascript').
-      $(function(){
+    }
+block header
+  h4
+    a.btn(href='/')
+      span.glyphicon.glyphicon-menu-left
+    | Revenue Calculation
+block content
+  form.form-horizontal
+    .form-group
+      .col-xs-12.col-sm-5.col-md-5.form_input
+        input#price_input.form-control(type='text', placeholder='Price')
+      .col-xs-12.col-sm-5.col-md-5.form_input
+        input#cost_input.form-control(type='text', placeholder='Amount')
+      .col-xs-12.col-sm-2.col-md-2.form_input
+        input.btn.btn-default.btn-block.btn-primary(type='button', value='GET', onclick='calcRev()')
+  #result_list.row
+    .col-xs-3.col-sm-1 1D:
+    .col-xs-3.col-sm-2.result 0
+    .col-xs-3.col-sm-1 2D:
+    .col-xs-3.col-sm-2.result 0
+    .col-xs-3.col-sm-1 4D:
+    .col-xs-3.col-sm-2.result 0
+    .col-xs-3.col-sm-1 7D:
+    .col-xs-3.col-sm-2.result 0
+append scripts
+  script.
+    $(function(){
       // $.material.init();
-      });
-      function calcRev(){
+    });
+    function calcRev(){
       var price = document.getElementById('price_input').value;
       var cost = document.getElementById('cost_input').value;
       var rev = (cost*100)*(price/100);
       setResult(rev);
-      }
-      function setResult(result){
+    }
+    function setResult(result){
       var $divs = $('#result_list').find('div.result');
       $divs.eq(0).text(round(result));
       $divs.eq(1).text(round(result*2));
       $divs.eq(2).text(round(result*4));
       $divs.eq(3).text(round(result*7));
-      }
-      function round(number){
+    }
+    function round(number){
       return Math.round(number*100/360)/100;
-      }
+    }

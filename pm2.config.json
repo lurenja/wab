@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "demo",
+      "script": "./src/server.js",
+      "watch": true
+    }
+  ]
+}

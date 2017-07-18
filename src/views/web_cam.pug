@@ -1,51 +1,45 @@
-doctype html
-html(lang='zh-CN')
-  head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
-    title Web Camera
-    script(type='text/javascript', src='./js/jquery-1.12.0.js')
-    script(type='text/javascript', src='./bootstrap/js/bootstrap.min.js')
-    link(rel='stylesheet', type='text/css', href='./bootstrap/css/bootstrap.min.css')
-  body
-    .container
-      .page-header
-        h4
-          a.btn(href='javascript:history.go(-1);')
-            span.glyphicon.glyphicon-menu-left
-          | Web Camera
-      .row
-        .col-xs-12.col-sm-6
-          video#video(autoplay='')
-        .col-xs-12.col-sm-6
-          canvas#canvas
-        .col-xs-12
-          button#picture.btn.btn-default.btn-block.btn-primary(onclick='capture()') PICTURE
-    script(type='text/javascript').
-      $(function(){
+extends layout.pug
+block title
+  title Web Camera
+block header
+  h4
+    a.btn(href='javascript:history.go(-1);')
+      span.glyphicon.glyphicon-menu-left
+    | Web Camera
+block content
+  .row
+    .col-xs-12.col-sm-6
+      video#video(autoplay='')
+    .col-xs-12.col-sm-6
+      canvas#canvas
+    .col-xs-12
+      button#picture.btn.btn-default.btn-block.btn-primary(onclick='capture()') PICTURE
+append scripts
+  script.
+    $(function(){
       var video = document.getElementById("video");
       var canvas = document.getElementById('canvas');
       var context = canvas.getContext("2d");
       var errocb = function () {
-      console.log('sth wrong!');
+        console.log('sth wrong!');
       }
       if (navigator.getUserMedia) { // 标准的API
-      navigator.getUserMedia({video: true }, function (stream) {
-      video.src = stream;
-      video.play();
-      },  function (error) { console.log(error); });
+        navigator.getUserMedia({video: true }, function (stream) {
+          video.src = stream;
+          video.play();
+        },  function (error) { console.log(error); });
       } else if (navigator.webkitGetUserMedia) { // WebKit 核心的API
-      navigator.webkitGetUserMedia({video: true }, function (stream) {
-      video.src = window.webkitURL.createObjectURL(stream);
-      video.play();
-      }, function (error) { console.log(error); });
+        navigator.webkitGetUserMedia({video: true }, function (stream) {
+          video.src = window.webkitURL.createObjectURL(stream);
+          video.play();
+        }, function (error) { console.log(error); });
       }
-      });
-      function capture() {
+    });
+    function capture() {
       var video = document.getElementById('video');
       var canvasObj = document.getElementById('canvas');
       var context1 = canvasObj.getContext('2d');
       context1.fillStyle = "#ffffff";
       context1.fillRect(0, 0, 320, 240);
       context1.drawImage(video, 0, 0, 320, 240);
-      }
+    }

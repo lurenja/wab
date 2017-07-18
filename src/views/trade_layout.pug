@@ -1,0 +1,38 @@
+extends layout.pug
+block title
+  title Trade - #{title}
+append style
+  style.
+    ul.nav{
+      margin-bottom: 8px;
+    }
+    .table{
+      margin-top: 8px;
+    }
+block header
+  h4
+    a.btn(href='/')
+      span.glyphicon.glyphicon-menu-left
+    span #{showTitle}
+block content
+  -var tableTitle = ['购买日期','成交时间','证券代码','证券名称','买卖标志','成交价格','成交数量','成交金额','协议编号','股东代码','交易市场'];
+  .row
+    #menu.col-md-12(role="navigation")
+      ul.nav.nav-pills
+        li(role="presentation")
+          a(href="/trade_index") History
+        li(role="presentation")
+          a(href="/trade_upload") Upload
+        li(role="presentation")
+          a(href="#") Setting
+append scripts
+  script.
+    $(function(){
+      var $lis = $('ul.nav').find('li');
+      var pageId = !{pageId};
+      $lis.each(function(index, elem){
+        if(index == (pageId - 1)){
+          $(this).addClass('active');
+        }
+      });
+    });

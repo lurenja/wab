@@ -1,0 +1,43 @@
+extends trade_upload.pug
+append scripts
+  script.
+    $(function(){
+      var data = !{data}; //read data from server function
+      if (typeof(data) == 'object' && data.length > 0){
+          var table = $('#result-tb').find('tbody');
+          for (var i = 1, size = data.length; i < size; i++) {
+              if (data[i].length > 0) {
+                  var $tr = $('<tr>');
+                  for (var name in data[i]) {
+                      var $td = $('<td>');
+                      $td.text(data[i][name]);
+                      $tr.append($td);
+                  }
+                  table.append($tr);
+              }
+          }
+      }
+    });
+    function saveToDb(){
+      $.post('/save_to_db', {fileName: $('#file-name-input').val()}, function(result){
+        if(result == 'ok'){
+          alert('Saved!');
+          window.location.href='/trade_index';
+        }else{
+          alert('Something wrong, please check the log...');
+        }
+      }, 'text');
+    }
+block subContent
+  .row
+    table#result-tb.table
+      thead
+        tr
+          for val in tableTitle
+            th= val
+      tbody
+  .row
+    .col-md-11
+      input#file-name-input(type="hidden" value=file)
+    .col-md-1
+      button.btn.btn-default(type="button" onclick="saveToDb()") Confirm
