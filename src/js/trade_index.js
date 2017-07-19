@@ -59,37 +59,44 @@ function getSumm() {
     if ($tds.eq(4).text() == '证券买入') {
       inAmount += parseInt($tds.eq(6).text()); // add total amount
       inSum += parseFloat($tds.eq(7).text()); // add total cost
-      if (minInPrice == 0 || minInPrice > currPrice) {
+      if (minInPrice == 0 || minInPrice > currPrice) { // get current minimal buy price
         minInPrice = currPrice;
       }
     } else if ($tds.eq(4).text() == '证券卖出') {
       outAmount += parseInt($tds.eq(6).text());
       outSum += parseFloat($tds.eq(7).text());
-      if (maxOutPrice == 0 || maxOutPrice < currPrice) {
+      if (maxOutPrice == 0 || maxOutPrice < currPrice) { // get current maximum sell price
         maxOutPrice = currPrice;
       }
     }
   });
 
-  let rate = 1.1;
+  let rate = 0.05;
   if (inAmount > 0) {
-    avgInPrice = inSum / inAmount;
-    suggestOut = avgInPrice > maxOutPrice ? avgInPrice : maxOutPrice;
-    suggestOut = suggestOut * 1.05;
+    avgInPrice = inSum / inAmount; // get average buy in price
   }
+  suggestOut = avgInPrice > maxOutPrice ? avgInPrice : maxOutPrice; // get higher price as reference
+  suggestOut = suggestOut * (1+rate);
 
   if (outAmount > 0) {
-    avgOutPrice = outSum / outAmount;
-    suggestIn = avgOutPrice > minInPrice? minInPrice : avgOutPrice;
-    suggestIn = suggestOut * 0.95;
+    avgOutPrice = outSum / outAmount; // get average sell price
+    if(minInPrice > 0){ // get lower price except zero as reference
+      suggestIn = avgOutPrice > minInPrice? minInPrice : avgOutPrice;
+    }else{
+      suggestIn = avgOutPrice;
+    }
+  }else{
+    suggestIn = minInPrice;
   }
+  suggestIn = suggestIn * (1-rate);
+  
   summTable.push([avgInPrice.toFixed(3), maxOutPrice.toFixed(3), suggestOut.toFixed(3)]);
   summTable.push([avgOutPrice.toFixed(3), minInPrice.toFixed(3), suggestIn.toFixed(3)]);
   summTable.push([(outSum - inSum).toFixed(3)]);
   appendSumm(summTable);
 }
 
-/* append the summary table */
+/* print data to the summary table */
 function appendSumm(summArray) {
   let $trs = $('#summary-tb').find('tr');
   for (x in summArray) {
