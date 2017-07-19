@@ -23,14 +23,27 @@ block header
       span.glyphicon.glyphicon-menu-left
     | Revenue Calculation
 block content
-  form.form-horizontal
-    .form-group
-      .col-xs-12.col-sm-5.col-md-5.form_input
-        input#price_input.form-control(type='text', placeholder='Price')
-      .col-xs-12.col-sm-5.col-md-5.form_input
-        input#cost_input.form-control(type='text', placeholder='Amount')
-      .col-xs-12.col-sm-2.col-md-2.form_input
-        input.btn.btn-default.btn-block.btn-primary(type='button', value='GET', onclick='calcRev()')
+  .row
+    form.form-horizontal
+      .form-group
+        .col-xs-12.col-sm-5.col-md-5.form_input
+          input#price_input.form-control(type='text', placeholder='Price')
+        .col-xs-12.col-sm-5.col-md-5.form_input
+          input#cost_input.form-control(type='text', placeholder='Amount')
+        .col-xs-12.col-sm-2.col-md-2.form_input
+          input.btn.btn-default.btn-block.btn-primary(type='button', value='GET', onclick='calcRev()')
+  .row
+    table.table#result-tb
+      tbody
+        tr
+          td 1D:
+          td 0
+          td 2D:
+          td 0
+          td 4D:
+          td 0
+          td 7D:
+          td 0
   #result_list.row
     .col-xs-3.col-sm-1 1D:
     .col-xs-3.col-sm-2.result 0
@@ -42,22 +55,19 @@ block content
     .col-xs-3.col-sm-2.result 0
 append scripts
   script.
-    $(function(){
-      // $.material.init();
-    });
     function calcRev(){
       var price = document.getElementById('price_input').value;
       var cost = document.getElementById('cost_input').value;
-      var rev = (cost*100)*(price/100);
+      var rev = (cost*price/100) /360;
       setResult(rev);
     }
     function setResult(result){
-      var $divs = $('#result_list').find('div.result');
-      $divs.eq(0).text(round(result));
-      $divs.eq(1).text(round(result*2));
-      $divs.eq(2).text(round(result*4));
-      $divs.eq(3).text(round(result*7));
+      var $tds = $('#result-tb').find('td');
+      $tds.eq(1).text(round(result));
+      $tds.eq(3).text(round(result*2));
+      $tds.eq(5).text(round(result*4));
+      $tds.eq(7).text(round(result*7));
     }
     function round(number){
-      return Math.round(number*100/360)/100;
+      return Math.round(number*100)/100;
     }
