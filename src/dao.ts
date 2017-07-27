@@ -4,17 +4,23 @@ var util = require('./util');
 exports.initDB = function(){
   var db = new Database('afina.db');
 
-  var sqlTables = 'select * from sqlite_master';
-  var sqlMainTable = 'create table trade_history '+
-    '(trade_date text, trade_time text, stock_code text, stock_name text, in_out text, price real, amount integer, sum real, trade_code text, hold_code text, location text)';
+  var getAllTables = 'select * from sqlite_master';
+  var createHistoryTable = 'create table trade_history '+
+    '(trade_date text, trade_time text, stock_code text, stock_name text, in_out text, price real,'+
+    ' amount integer, sum real, trade_code text, hold_code text, location text)';
+  var createRateTable = 'create table benefit_rate (item text, rate real)';
 
-  var tables = db.prepare(sqlTables).all();
-  if(tables.length == 0){
-    db.prepare(sqlMainTable).run();
+  var tables = db.prepare(getAllTables).all();
+  let count = 0;
+  while(tables.length == 0 && count < 3){
+    var result = db.prepare(createHistoryTable).run();
+    console.log(JSON.stringify(result));
+    result = db.prepare(createRateTable).run();
+    console.log(JSON.stringify(result));
+    
+    tables = db.prepare(getAllTables).all();
+    count++;
   }
-
-  var row = db.prepare(sqlTables).all();
-  console.log(row.length);
 }
 
 exports.loadHist = function(from, to, stock_name, category){
