@@ -1,8 +1,8 @@
 {
   "apps": [
     {
-      "name": "demo",
-      "script": "./src/server.js",
+      "name": "was",
+      "script": "./src/index.js",
       "watch": true
     }
   ]

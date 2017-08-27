@@ -76,33 +76,30 @@ function getSumm() {
     avgInPrice = inSum / inAmount; // get average buy in price
   }
   suggestOut = avgInPrice > maxOutPrice ? avgInPrice : maxOutPrice; // get higher price as reference
-  suggestOut = suggestOut * (1+rate);
+  suggestOut = suggestOut * (1 + rate);
 
   if (outAmount > 0) {
     avgOutPrice = outSum / outAmount; // get average sell price
-    if(minInPrice > 0){ // get lower price except zero as reference
-      suggestIn = avgOutPrice > minInPrice? minInPrice : avgOutPrice;
-    }else{
+    if (minInPrice > 0) { // get lower price except zero as reference
+      suggestIn = avgOutPrice > minInPrice ? minInPrice : avgOutPrice;
+    } else {
       suggestIn = avgOutPrice;
     }
-  }else{
+  } else {
     suggestIn = minInPrice;
   }
-  suggestIn = suggestIn * (1-rate);
-  
-  summTable.push([avgInPrice.toFixed(3), maxOutPrice.toFixed(3), suggestOut.toFixed(3)]);
-  summTable.push([avgOutPrice.toFixed(3), minInPrice.toFixed(3), suggestIn.toFixed(3)]);
-  summTable.push([(outSum - inSum).toFixed(3)]);
-  appendSumm(summTable);
+  suggestIn = suggestIn * (1 - rate);
+
+  appendSumm('in-summary-tb',[avgInPrice.toFixed(3), maxOutPrice.toFixed(3), suggestOut.toFixed(3)]);
+  appendSumm('out-summary-tb',[avgOutPrice.toFixed(3), minInPrice.toFixed(3), suggestIn.toFixed(3)]);
+  $('#benefit-value').text([(outSum - inSum).toFixed(1)]);
 }
 
 /* print data to the summary table */
-function appendSumm(summArray) {
-  let $trs = $('#summary-tb').find('tr');
-  for (x in summArray) {
-    $tds = $trs.eq(x).find('td');
-    for (y in summArray[x]) {
-      $tds.eq(2 * y + 1).text(summArray[x][y]);
-    }
+function appendSumm(tableId, summArray) {
+  let $trs = $('#'+tableId).find('tr');
+  for (var i=0, size=summArray.length;i<size;i++) {
+    var td = $trs.eq(i).find('td').eq(1);
+    td.text(summArray[i]);
   }
 }

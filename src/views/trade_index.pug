@@ -16,32 +16,46 @@ append content
         option(value="融券") 融券
     button.btn.btn-default(type="button" onclick="searchData()") search
   .row
+    .col-xs-12
     table#result-tb.table
       thead
         tr
           for val in tableTitle
             th= val
       tbody
+      tfoot
+        tr
+          td(colspan="6")
+          th 收益
+          td(colspan="2")
+            span#benefit-value
   .row
-    table#summary-tb.table
-      tbody
-        tr
-          td AVG In Price:
-          td
-          td Max Out Price:
-          td
-          td Suggest Out:
-          td
-        tr
-          td AVG Out Price:
-          td
-          td Min In Price:
-          td
-          td Suggest In:
-          td
-        tr
-          td Benefit:
-          td(colspan="5")
+    .col-xs-12.col-sm-6
+      table#in-summary-tb.table
+        tbody
+          tr
+            td AVG In:
+            td
+          tr
+            td Max Out:
+            td
+          tr
+            td Suggest Out:
+            td
+    .col-xs-12.col-sm-6
+      table#out-summary-tb.table
+          tr
+            td AVG Out:
+            td
+          tr
+            td Min In:
+            td
+          tr
+            td Suggest In:
+            td
+          //- tr
+          //-   td Benefit:
+          //-   td(colspan="5")
 append scripts
   script(src="bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")
   script(src="js/common.js")
