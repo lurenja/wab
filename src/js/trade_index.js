@@ -1,7 +1,16 @@
 $(function () {
-  $('.date-input').datepicker({
+  $('#to-input').datepicker({
     autoclose: true,
-    format: 'yyyy-mm-dd'
+    format: 'yyyy-mm-dd',
+    todayBtn: true,
+    todayHighlight: true
+  });
+  $('#from-input').datepicker({
+    autoclose: true,
+    format: 'yyyy-mm-dd',
+    todayBtn: true,
+    todayHighlight: true,
+    defaultViewDate: '2016-03-01',
   });
 });
 
